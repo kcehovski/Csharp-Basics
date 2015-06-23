@@ -62,8 +62,16 @@ namespace Arrays
             }
 
 
+            //string[] myArray = { "Lemons", "Bread", "Banana", "Orange" };
+            //for (int i = 0; i < myArray.Length; i++)
+            //{
+            //        MessageBox.Show(i + " " + myArray[i]);
+            //}
+
+  
             //6. loop through myArray
             //string[] myArray = { "Lemons", "Bread", "Banana", "Orange" };
+
             //for (int i = 0; i < myArray.Length; i++)
             //{
             //    if (myArray[i] == "Bread")
