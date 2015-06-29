@@ -15,6 +15,7 @@ namespace courseBooking
         public Form2()
         {
             InitializeComponent();
+            this.Text = "Booking Seat Plan";
         }
 
         private void button1_Click(object sender, EventArgs e)

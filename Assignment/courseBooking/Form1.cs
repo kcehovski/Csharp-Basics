@@ -24,9 +24,17 @@ namespace courseBooking
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //opens a form for enter new course
-            Form4 form4 = new Form4();
-            form4.Show();
+            //opens a new file
+            SaveFileDialog newFile = new SaveFileDialog();
+            newFile.Title = "Save Text File";
+            newFile.Filter = "TXT files|*.txt";
+            newFile.InitialDirectory = @"\courseBooking";
+
+
+            if (newFile.ShowDialog() == DialogResult.OK)
+            {
+               File.Create(newFile.FileName);
+            }
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -72,7 +80,6 @@ namespace courseBooking
                 Form2 form2 = new Form2();
                 form2.Show();
             }
-
         }
 
 
@@ -84,6 +91,13 @@ namespace courseBooking
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //opens a form for enter new course
+            Form4 form4 = new Form4();
+            form4.Show();
         }
 
 
