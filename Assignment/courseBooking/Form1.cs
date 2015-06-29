@@ -36,7 +36,7 @@ namespace courseBooking
             OpenFileDialog myDialog = new OpenFileDialog();
             myDialog.Title = "Open Text File";
             myDialog.Filter = "TXT files|*.txt";
-            myDialog.InitialDirectory = @"C:\Users\blue13.FASFG\Documents\vsprojects\Csharp-Basics\Assignment\courseBooking";
+            myDialog.InitialDirectory = @"\courseBooking";
 
             //if the user clicked OK then read from file
             if (myDialog.ShowDialog() == DialogResult.OK)  
@@ -65,6 +65,15 @@ namespace courseBooking
              }
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (fileLines != null && listBox1.SelectedIndex != -1)
+            {
+                Form2 form2 = new Form2();
+                form2.Show();
+            }
+
+        }
 
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -76,6 +85,7 @@ namespace courseBooking
         {
             this.Close();
         }
+
 
 
     }
