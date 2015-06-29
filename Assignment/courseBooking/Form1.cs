@@ -17,8 +17,6 @@ namespace courseBooking
         public static string[] fileLines;
         List<string> courseNames = new List<string>();
 
-
-
         public Form1()
         {
             InitializeComponent();
