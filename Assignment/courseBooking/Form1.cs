@@ -30,8 +30,11 @@ namespace courseBooking
             newFile.Filter = "TXT files|*.txt";
             newFile.InitialDirectory = @"\courseBooking";
 
-
-            if (newFile.ShowDialog() == DialogResult.OK)
+            if (newFile.ShowDialog() != DialogResult.OK || newFile.FileName != "*.txt")
+            {
+                MessageBox.Show("File incorrect format or dialog cancelled", "Error 001", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
             {
                File.Create(newFile.FileName);
             }
@@ -43,21 +46,28 @@ namespace courseBooking
 
             OpenFileDialog myDialog = new OpenFileDialog();
             myDialog.Title = "Open Text File";
-            myDialog.Filter = "TXT files|*.txt";
+            myDialog.Filter = "All files|*.*";
             myDialog.InitialDirectory = @"\courseBooking";
 
             //if the user clicked OK then read from file
-            if (myDialog.ShowDialog() == DialogResult.OK)  
+
+
+            if (myDialog.ShowDialog() != DialogResult.OK || myDialog.FileName != "*.txt")
             {
-                filename = myDialog.FileName;        
+                MessageBox.Show("File open error or dialog cancelled", "Error 002", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            else
+            {
+                filename = myDialog.FileName;
                 fileLines = File.ReadAllLines(filename);    //array
 
-                for (int i = 0; i < fileLines.Length; i++) 
+                for (int i = 0; i < fileLines.Length; i++)
                 {
                     fileLines[i] = fileLines[i].Trim('"');  //it moves " from begining and end of each line
                 }
 
-                for (int i=0; i < fileLines.Length; i += 4)   //it loops through array od lines and adds every 4th line (names) to list 
+                for (int i = 0; i < fileLines.Length; i += 4)   //it loops through array od lines and adds every 4th line (names) to list 
                 {
                     courseNames.Add(fileLines[i]);
                 }
@@ -70,7 +80,7 @@ namespace courseBooking
                 {
                     listBox1.Items.Add(item);
                 }
-             }
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)

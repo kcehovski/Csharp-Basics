@@ -18,3 +18,13 @@
 "18/06/2002"
 "€300"
 "BBFFBFFFFFFF"
+"kaja"
+"12/04/2002"
+"€System.Windows.Forms.TextBox, Text: 500"
+"FFFFFFFFFFFF"
+
+"jflsjfsa"
+"23/05/2045"
+"€200"
+"FFFFFFFFFFFF"
+
