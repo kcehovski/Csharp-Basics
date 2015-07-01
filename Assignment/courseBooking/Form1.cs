@@ -15,6 +15,7 @@ namespace courseBooking
     {
         string filename;
         public static string[] fileLines;
+        public static List<string> fileNewLines = new List<string>();
         List<string> courseNames = new List<string>();
 
         public Form1()
@@ -30,13 +31,18 @@ namespace courseBooking
             newFile.Filter = "TXT files|*.txt";
             newFile.InitialDirectory = @"\courseBooking";
 
-            if (newFile.ShowDialog() != DialogResult.OK || newFile.FileName != "*.txt")
+
+            if (newFile.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show("File incorrect format or dialog cancelled", "Error 001", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-               File.Create(newFile.FileName);
+                if (Path.GetExtension(newFile.FileName) == ".txt")
+                {
+                    File.Create(newFile.FileName);
+                }
+
+                else
+                {
+                    MessageBox.Show("File incorrect format or dialog cancelled", "Error 001", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -46,18 +52,13 @@ namespace courseBooking
 
             OpenFileDialog myDialog = new OpenFileDialog();
             myDialog.Title = "Open Text File";
-            myDialog.Filter = "All files|*.*";
+            myDialog.Filter = "TXT files|*.txt";
             myDialog.InitialDirectory = @"\courseBooking";
 
             //if the user clicked OK then read from file
 
 
-            if (myDialog.ShowDialog() != DialogResult.OK || myDialog.FileName != "*.txt")
-            {
-                MessageBox.Show("File open error or dialog cancelled", "Error 002", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            else
+            if (myDialog.ShowDialog() == DialogResult.OK)
             {
                 filename = myDialog.FileName;
                 fileLines = File.ReadAllLines(filename);    //array
@@ -80,6 +81,12 @@ namespace courseBooking
                 {
                     listBox1.Items.Add(item);
                 }
+
+            }
+
+            else
+            {
+                MessageBox.Show("File open error or dialog cancelled", "Error 002", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -96,6 +103,28 @@ namespace courseBooking
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //to save new course when it's entered
+
+            try
+            {
+                using (StreamWriter file = new StreamWriter(filename, false))
+                {
+                    foreach (string line in fileLines)
+                    {
+                        file.WriteLine('"' + line + '"');
+                    }
+                    file.Close();
+                }
+            }
+
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("No file to save.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            catch (FileNotFoundException )
+            {
+                MessageBox.Show("File save error.", "Error 003", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -106,11 +135,35 @@ namespace courseBooking
         private void button2_Click(object sender, EventArgs e)
         {
             //opens a form for enter new course
-            Form4 form4 = new Form4();
-            form4.Show();
+
+            if (fileLines != null)
+            {
+                Form4 form4 = new Form4();
+                form4.FormClosed += form4_FormClosed;
+                form4.Show();
+            }
+            else
+            {
+                MessageBox.Show("No course file opened.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
+        void form4_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            for (int i = 0; i < fileLines.Length; i += 4)   //it loops through array od lines and adds every 4th line (names) to list 
+            {
+                courseNames.Add(fileLines[i]);
+            }
 
+            courseNames = courseNames.Distinct().ToList<string>();  //moves course name duplicates
+
+            listBox1.Items.Clear(); //clear listBox from existing courses
+
+            foreach (string item in courseNames)
+            {
+                listBox1.Items.Add(item);
+            }
+        }
 
     }
 }
