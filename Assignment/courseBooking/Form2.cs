@@ -18,16 +18,19 @@ namespace courseBooking
             this.Text = "Booking Seat Plan";
         }
 
+        //To print a booking form
         private void button1_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Hello World!");
         }
 
+        //Closes the form
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        //Checks what is written in the checkBox and then changes text to B or 1
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox1.Checked)

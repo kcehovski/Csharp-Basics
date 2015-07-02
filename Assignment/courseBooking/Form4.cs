@@ -23,7 +23,7 @@ namespace courseBooking
         public Form4()
         {
             InitializeComponent();
-            this.Text = "Sofware Training";
+            this.Text = "New course";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -33,6 +33,7 @@ namespace courseBooking
             
             try
             {
+                //checking that date is in format "dd/MM/yyyy"
                 result = DateTime.ParseExact(textBox2.Text, "dd/MM/yyyy", provider);
 
                 foreach (string item in Form1.fileLines)
@@ -57,7 +58,7 @@ namespace courseBooking
 
             }
 
-            catch (FormatException)
+            catch (FormatException) //if date is not in format that we gave it then it shows the message box
             {
                 MessageBox.Show("Invalid Date", "Error 004", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -66,6 +67,7 @@ namespace courseBooking
         private void Form4_FormClosed(object sender, FormClosedEventArgs e)
         {
             Form1.fileLines = Form1.fileNewLines.ToArray();
+            Form1.fileNewLines.Clear();
             
         }
     }

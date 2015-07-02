@@ -30,16 +30,16 @@ namespace courseBooking
             newFile.Title = "Save Text File";
             newFile.Filter = "TXT files|*.txt";
             newFile.InitialDirectory = @"\courseBooking";
+            //details for the dialog box, title, filter, and which directory to open
 
-
-            if (newFile.ShowDialog() == DialogResult.OK)
+            if (newFile.ShowDialog() == DialogResult.OK)  //waits for OK button to be clicked
             {
-                if (Path.GetExtension(newFile.FileName) == ".txt")
+                if (Path.GetExtension(newFile.FileName) == ".txt") //checks that you entered .txt extension, and then creates a new file
                 {
                     File.Create(newFile.FileName);
                 }
 
-                else
+                else   //if extension is something different than .txt it's going to show the message box
                 {
                     MessageBox.Show("File incorrect format or dialog cancelled", "Error 001", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -56,12 +56,14 @@ namespace courseBooking
             myDialog.InitialDirectory = @"\courseBooking";
 
             //if the user clicked OK then read from file
+            listBox1.Items.Clear();
+            courseNames.Clear();
 
 
-            if (myDialog.ShowDialog() == DialogResult.OK)
+            if (myDialog.ShowDialog() == DialogResult.OK)   //waits for OK button to be clicked
             {
                 filename = myDialog.FileName;
-                fileLines = File.ReadAllLines(filename);    //array
+                fileLines = File.ReadAllLines(filename, Encoding.Default);    //array, elements are lines from file
 
                 for (int i = 0; i < fileLines.Length; i++)
                 {
@@ -75,16 +77,14 @@ namespace courseBooking
 
                 courseNames = courseNames.Distinct().ToList<string>();  //moves course name duplicates
 
-                listBox1.Items.Clear(); //clear listBox from existing courses
-
                 foreach (string item in courseNames)
                 {
-                    listBox1.Items.Add(item);
+                    listBox1.Items.Add(item);  //adding course names to listbox
                 }
 
             }
 
-            else
+            else   //if dialog is cancelled it will show message box
             {
                 MessageBox.Show("File open error or dialog cancelled", "Error 002", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -106,7 +106,8 @@ namespace courseBooking
 
             try
             {
-                using (StreamWriter file = new StreamWriter(filename, false))
+                //writting into the file which is already open 
+                using (StreamWriter file = new StreamWriter(filename, false, Encoding.Default)) //false means that it's going to overwritte it 
                 {
                     foreach (string line in fileLines)
                     {
@@ -116,12 +117,12 @@ namespace courseBooking
                 }
             }
 
-            catch (NullReferenceException)
+            catch (NullReferenceException)  //if you didn't open a file before than it will show message box
             {
                 MessageBox.Show("No file to save.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            catch (FileNotFoundException )
+            catch (FileNotFoundException)  // if it cann't find the file to writte in
             {
                 MessageBox.Show("File save error.", "Error 003", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
